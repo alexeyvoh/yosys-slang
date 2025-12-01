@@ -25,6 +25,7 @@ endif()
 
 set(ALL_TESTS
     unit/async.ys
+    unit/countones_u.ys
     unit/dualedge.ys
     unit/function_call.ys
     unit/latch.ys
@@ -32,6 +33,7 @@ set(ALL_TESTS
     various/assign_mixing.ys
     various/bb_detect.ys
     various/blackbox_scenarios.ys
+    various/countones.ys
     various/defaults.ys
     various/delays.ys
     various/dualedge.ys

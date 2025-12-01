@@ -1,0 +1,96 @@
+logger -expect log "SAT proof finished - no model found: SUCCESS" 1
+
+read_slang <<EOF
+module cnt#(parameter WIDTH = 15)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1,  output logic [$clog2(WIDTH+1):0] out2, output ok);
+// NOTE: $clog2 was added in 1364-2005, not supported in 1364-1995 or 1364-2001
+reg [$clog2(WIDTH+1):0] count_ones;
+integer idx;
+
+always @* begin
+  // sout = 2;
+  count_ones = {WIDTH{1'b0}};
+  for( idx = 0; idx<=WIDTH; idx = idx + 1) begin
+    count_ones = count_ones + sout[idx];
+  end
+end
+assign out1 = $countones(sout);
+assign out2 = count_ones;
+assign ok = (out2 == out1);
+endmodule
+EOF
+sat -verify -prove ok 1
+
+design -reset
+
+logger -expect log "SAT proof finished - no model found: SUCCESS" 1
+
+read_slang <<EOF
+module cnt#(parameter WIDTH = 1)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1,  output logic [$clog2(WIDTH+1):0] out2, output ok);
+// NOTE: $clog2 was added in 1364-2005, not supported in 1364-1995 or 1364-2001
+reg [$clog2(WIDTH+1):0] count_ones;
+integer idx;
+
+always @* begin
+  // sout = 2;
+  count_ones = {WIDTH{1'b0}};
+  for( idx = 0; idx<=WIDTH; idx = idx + 1) begin
+    count_ones = count_ones + sout[idx];
+  end
+end
+assign out1 = $countones(sout);
+assign out2 = count_ones;
+assign ok = (out2 == out1);
+endmodule
+EOF
+sat -verify -prove ok 1
+
+design -reset
+
+logger -expect log "SAT proof finished - no model found: SUCCESS" 1
+
+read_slang <<EOF
+module cnt#(parameter WIDTH = 18)
+(input signed[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1,  output logic [$clog2(WIDTH+1):0] out2, output ok);
+reg signed [$clog2(WIDTH+1):0] count_ones;
+integer idx;
+
+always @* begin
+  // sout = 2;
+  count_ones = {WIDTH{1'b0}};
+  for( idx = 0; idx<=WIDTH; idx = idx + 1) begin
+    count_ones = count_ones + sout[idx];
+  end
+end
+assign out1 = $countones(sout);
+assign out2 = count_ones;
+assign ok = (out2 == out1);
+endmodule
+EOF
+sat -verify -prove ok 1
+
+design -reset
+
+logger -expect log "SAT proof finished - no model found: SUCCESS" 1
+
+read_slang <<EOF
+module cnt#(parameter WIDTH = 0)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1,  output logic [$clog2(WIDTH+1):0] out2, output ok);
+// NOTE: $clog2 was added in 1364-2005, not supported in 1364-1995 or 1364-2001
+reg [$clog2(WIDTH+1):0] count_ones;
+integer idx;
+
+always @* begin
+  // sout = 2;
+  count_ones = {(WIDTH+1){1'b0}};
+  for( idx = 0; idx<=WIDTH; idx = idx + 1) begin
+    count_ones = count_ones + sout[idx];
+  end
+end
+assign out1 = $countones(sout);
+assign out2 = count_ones;
+assign ok = (out2 == out1);
+endmodule
+EOF
+sat -verify -prove ok 1

@@ -1,0 +1,444 @@
+read_slang <<EOF
+module cntones_gate#(parameter WIDTH = 7)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1);
+assign out1 = $countones(sout);
+endmodule
+EOF
+
+read_rtlil <<EOF
+module \cntones_gold
+  wire width 8 input 1 \sout
+  wire width 4 output 2 \out1
+  wire width 32 $0y
+  wire width 32 $1y
+  wire width 32 $2y
+  wire width 32 $3y
+  wire width 32 $4y
+  wire width 32 $5y
+  wire width 32 $6y
+  cell $add $0
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [0] }
+    connect \B { 31'0000000000000000000000000000000 \sout [1] }
+    connect \Y $0y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $1
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [2] }
+    connect \B { 31'0000000000000000000000000000000 \sout [3] }
+    connect \Y $1y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $2
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [4] }
+    connect \B { 31'0000000000000000000000000000000 \sout [5] }
+    connect \Y $2y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $3
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [6] }
+    connect \B { 31'0000000000000000000000000000000 \sout [7] }
+    connect \Y $3y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $4
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $0y
+    connect \B $1y
+    connect \Y $4y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $5
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $2y
+    connect \B $3y
+    connect \Y $5y
+  end
+  attribute \src "../../yosys-log/countones3.sv:4.15-4.31"
+  cell $add $6
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $4y
+    connect \B $5y
+    connect \Y $6y
+  end
+  connect \out1 $6y [3:0]
+end
+EOF
+
+async2sync
+equiv_make cntones_gold cntones_gate cntones_equiv
+equiv_induct cntones_equiv
+equiv_status -assert
+
+design -reset
+
+read_slang <<EOF
+module cntones1_gate#(parameter WIDTH = 0)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1);
+assign out1 = $countones(sout);
+endmodule
+EOF
+
+read_rtlil <<EOF
+module \cntones1_gold
+  wire input 1 \sout
+  wire output 2 \out1
+  connect \out1 \sout
+end
+EOF
+
+async2sync
+equiv_make cntones1_gold cntones1_gate cntones1_equiv
+equiv_induct cntones1_equiv
+equiv_status -assert
+
+design -reset
+
+read_slang <<EOF
+module cntones2_gate#(parameter WIDTH = 1)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1);
+assign out1 = $countones(sout);
+endmodule
+EOF
+
+read_rtlil <<EOF
+module \cntones2_gold
+  wire width 2 input 1 \sout
+  wire width 2 output 2 \out1
+  wire width 32 $0y
+  cell $add $0
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [0] }
+    connect \B { 31'0000000000000000000000000000000 \sout [1] }
+    connect \Y $0y
+  end
+  connect \out1 $0y [1:0]
+end
+EOF
+
+async2sync
+equiv_make cntones2_gold cntones2_gate cntones2_equiv
+equiv_induct cntones2_equiv
+equiv_status -assert
+
+
+design -reset
+
+read_slang <<EOF
+module cntones3_gate#(parameter WIDTH = 24)
+(input logic[WIDTH:0] sout,  output logic [$clog2(WIDTH+1):0] out1);
+assign out1 = $countones(sout);
+endmodule
+EOF
+
+read_rtlil <<EOF
+module \cntones3_gold
+  wire width 25 input 1 \sout
+  wire width 6 output 2 \out1
+  wire width 32 $0y
+  wire width 32 $1y
+  wire width 32 $2y
+  wire width 32 $3y
+  wire width 32 $4y
+  wire width 32 $5y
+  wire width 32 $6y
+  wire width 32 $7y
+  wire width 32 $8y
+  wire width 32 $9y
+  wire width 32 $10y
+  wire width 32 $11y
+  wire width 32 $12y
+  wire width 32 $13y
+  wire width 32 $14y
+  wire width 32 $15y
+  wire width 32 $16y
+  wire width 32 $17y
+  wire width 32 $18y
+  wire width 32 $19y
+  wire width 32 $20y
+  wire width 32 $21y
+  wire width 32 $22y
+  wire width 32 $23y
+  cell $add $0
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [0] }
+    connect \B { 31'0000000000000000000000000000000 \sout [1] }
+    connect \Y $0y
+  end
+  cell $add $1
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [2] }
+    connect \B { 31'0000000000000000000000000000000 \sout [3] }
+    connect \Y $1y
+  end
+  cell $add $2
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [4] }
+    connect \B { 31'0000000000000000000000000000000 \sout [5] }
+    connect \Y $2y
+  end
+  cell $add $3
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [6] }
+    connect \B { 31'0000000000000000000000000000000 \sout [7] }
+    connect \Y $3y
+  end
+  cell $add $4
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [8] }
+    connect \B { 31'0000000000000000000000000000000 \sout [9] }
+    connect \Y $4y
+  end
+  cell $add $5
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [10] }
+    connect \B { 31'0000000000000000000000000000000 \sout [11] }
+    connect \Y $5y
+  end
+  cell $add $6
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [12] }
+    connect \B { 31'0000000000000000000000000000000 \sout [13] }
+    connect \Y $6y
+  end
+  cell $add $7
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [14] }
+    connect \B { 31'0000000000000000000000000000000 \sout [15] }
+    connect \Y $7y
+  end
+  cell $add $8
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [16] }
+    connect \B { 31'0000000000000000000000000000000 \sout [17] }
+    connect \Y $8y
+  end
+  cell $add $9
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [18] }
+    connect \B { 31'0000000000000000000000000000000 \sout [19] }
+    connect \Y $9y
+  end
+  cell $add $10
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [20] }
+    connect \B { 31'0000000000000000000000000000000 \sout [21] }
+    connect \Y $10y
+  end
+  cell $add $11
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A { 31'0000000000000000000000000000000 \sout [22] }
+    connect \B { 31'0000000000000000000000000000000 \sout [23] }
+    connect \Y $11y
+  end
+  cell $add $12
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $0y
+    connect \B $1y
+    connect \Y $12y
+  end
+  cell $add $13
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $2y
+    connect \B $3y
+    connect \Y $13y
+  end
+  cell $add $14
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $4y
+    connect \B $5y
+    connect \Y $14y
+  end
+  cell $add $15
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $6y
+    connect \B $7y
+    connect \Y $15y
+  end
+  cell $add $16
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $8y
+    connect \B $9y
+    connect \Y $16y
+  end
+  cell $add $17
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $10y
+    connect \B $11y
+    connect \Y $17y
+  end
+  cell $add $18
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $12y
+    connect \B $13y
+    connect \Y $18y
+  end
+  cell $add $19
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $14y
+    connect \B $15y
+    connect \Y $19y
+  end
+  cell $add $20
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $16y
+    connect \B $17y
+    connect \Y $20y
+  end
+  cell $add $21
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $18y
+    connect \B $19y
+    connect \Y $21y
+  end
+  cell $add $22
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $20y
+    connect \B { 31'0000000000000000000000000000000 \sout [24] }
+    connect \Y $22y
+  end
+  cell $add $23
+    parameter \A_WIDTH 32
+    parameter \B_WIDTH 32
+    parameter \A_SIGNED 0
+    parameter \B_SIGNED 0
+    parameter \Y_WIDTH 32
+    connect \A $21y
+    connect \B $22y
+    connect \Y $23y
+  end
+  connect \out1 $23y [5:0]
+end
+EOF
+
+async2sync
+equiv_make cntones3_gold cntones3_gate cntones3_equiv
+equiv_induct cntones3_equiv
+equiv_status -assert
